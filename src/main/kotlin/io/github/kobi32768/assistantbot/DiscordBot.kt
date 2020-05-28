@@ -25,6 +25,23 @@ class DiscordBot : ListenerAdapter() {
     }
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
+        println("- - - - - - - - - -")
+        println("Message detected")
+        val content = event.message.contentDisplay
+        val command = content.split(" ")[1]
+        val args = content.split(" ").drop(2)
+        val chnl = ChannelManagement()
+
+        if(content.startsWith("sudo")) {
+            when(command) {
+                "mktc" -> chnl.makeTextChannel(event, args[0])
+                "mkvc" -> chnl.makeVoiceChannel(event, args[0])
+                "findcat" -> chnl.findCategory(event, args[0])
+            }
+            println("Command detected")
+            println(event.guild.channels)
+            println(event.guild.categories)
+        }
 
     }
 }
