@@ -7,10 +7,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import javax.security.auth.login.LoginException
 
 class DiscordBot : ListenerAdapter() {
-
     fun start() {
         try {
-            val jda = JDABuilder(Token.token)
+            val jda = JDABuilder(Secret.botToken)
                 .addEventListeners(this)
                 .build()
             jda.awaitReady()
@@ -25,15 +24,14 @@ class DiscordBot : ListenerAdapter() {
     }
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        println("- - - - - - - - - -")
         println("Message detected")
         val content = event.message.contentDisplay
         val command = content.split(" ")[1]
         val args = content.split(" ").drop(2)
         val chnl = ChannelManagement()
 
-        if(content.startsWith("sudo")) {
-            when(command) {
+        if(content.startsWith("sudo")) { // TODO: 呼び出し用コマンド名を考える
+            when(command) { // TODO: ここもコマンド名を考える
                 "mktc" -> chnl.makeTextChannel(event, args[0])
                 "mkvc" -> chnl.makeVoiceChannel(event, args[0])
                 "findcat" -> chnl.findCategory(event, args[0])
@@ -42,6 +40,5 @@ class DiscordBot : ListenerAdapter() {
             println(event.guild.channels)
             println(event.guild.categories)
         }
-
     }
 }
